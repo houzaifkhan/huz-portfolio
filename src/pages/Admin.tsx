@@ -61,12 +61,25 @@ const Admin = () => {
             <Button
               className="w-full"
               onClick={async () => {
-                const { error } = await signIn(email, password);
-                if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                if (isSignUp) {
+                  const { error } = await supabase.auth.signUp({ email, password });
+                  if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                  else toast({ title: "Account created!", description: "Check your email to verify, then sign in." });
+                } else {
+                  const { error } = await signIn(email, password);
+                  if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                }
               }}
             >
-              Sign In
+              {isSignUp ? "Sign Up" : "Sign In"}
             </Button>
+            <button
+              type="button"
+              className="block w-full text-center text-sm text-muted-foreground hover:text-foreground"
+              onClick={() => setIsSignUp(!isSignUp)}
+            >
+              {isSignUp ? "Already have an account? Sign In" : "Need an account? Sign Up"}
+            </button>
             <Link to="/" className="block text-center text-sm text-muted-foreground hover:text-foreground">
               ← Back to Portfolio
             </Link>
