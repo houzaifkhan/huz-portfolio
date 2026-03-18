@@ -184,6 +184,8 @@ const Admin = () => {
 
   const startEdit = (project: Project) => {
     setEditingId(project.id);
+    setImageFile(null);
+    setImagePreview(null);
     setForm({
       title: project.title,
       description: project.description,
