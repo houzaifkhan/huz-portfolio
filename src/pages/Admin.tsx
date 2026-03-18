@@ -267,6 +267,59 @@ const Admin = () => {
           </div>
         </div>
 
+        {/* Categories Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Manage Categories</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {categories?.map((cat) => (
+                <span key={cat.id} className="inline-flex items-center gap-1 bg-muted text-muted-foreground px-3 py-1.5 rounded-full text-sm">
+                  {cat.name}
+                  <button
+                    onClick={async () => {
+                      if (!confirm(`Delete category "${cat.name}"?`)) return;
+                      try {
+                        await deleteCategory.mutateAsync(cat.id);
+                        toast({ title: "Category deleted" });
+                      } catch (err: any) {
+                        toast({ title: "Error", description: err.message, variant: "destructive" });
+                      }
+                    }}
+                    className="ml-1 hover:text-destructive"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                placeholder="New category name"
+                className="max-w-xs"
+              />
+              <Button
+                size="sm"
+                disabled={!newCategory.trim() || createCategory.isPending}
+                onClick={async () => {
+                  try {
+                    await createCategory.mutateAsync(newCategory.trim());
+                    setNewCategory("");
+                    toast({ title: "Category added" });
+                  } catch (err: any) {
+                    toast({ title: "Error", description: err.message, variant: "destructive" });
+                  }
+                }}
+              >
+                <Plus className="w-4 h-4 mr-1" /> Add
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Projects Section */}
         <div className="grid lg:grid-cols-3 gap-8">
           <Card className="lg:col-span-1">
