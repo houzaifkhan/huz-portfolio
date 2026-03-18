@@ -8,14 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin } from "lucide-react";
+import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { useCategories, useCreateCategory, useDeleteCategory } from "@/hooks/useCategories";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Project = Tables<"projects">;
-
-const CATEGORIES = ["Community", "Social Media", "Events", "Content"];
 
 const emptyForm = {
   title: "",
@@ -37,15 +36,19 @@ const Admin = () => {
   const { user, loading, isAdmin, signIn, signOut } = useAuth();
   const { data: projects, isLoading } = useProjects();
   const { data: linkedInPosts, isLoading: postsLoading } = useLinkedInPosts();
+  const { data: categories } = useCategories();
   const createProject = useCreateProject();
   const updateProject = useUpdateProject();
   const deleteProject = useDeleteProject();
   const createLinkedInPost = useCreateLinkedInPost();
   const deleteLinkedInPost = useDeleteLinkedInPost();
+  const createCategory = useCreateCategory();
+  const deleteCategory = useDeleteCategory();
   const { toast } = useToast();
 
   const [form, setForm] = useState(emptyForm);
   const [postForm, setPostForm] = useState(emptyPostForm);
+  const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -264,6 +267,59 @@ const Admin = () => {
           </div>
         </div>
 
+        {/* Categories Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Manage Categories</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {categories?.map((cat) => (
+                <span key={cat.id} className="inline-flex items-center gap-1 bg-muted text-muted-foreground px-3 py-1.5 rounded-full text-sm">
+                  {cat.name}
+                  <button
+                    onClick={async () => {
+                      if (!confirm(`Delete category "${cat.name}"?`)) return;
+                      try {
+                        await deleteCategory.mutateAsync(cat.id);
+                        toast({ title: "Category deleted" });
+                      } catch (err: any) {
+                        toast({ title: "Error", description: err.message, variant: "destructive" });
+                      }
+                    }}
+                    className="ml-1 hover:text-destructive"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                placeholder="New category name"
+                className="max-w-xs"
+              />
+              <Button
+                size="sm"
+                disabled={!newCategory.trim() || createCategory.isPending}
+                onClick={async () => {
+                  try {
+                    await createCategory.mutateAsync(newCategory.trim());
+                    setNewCategory("");
+                    toast({ title: "Category added" });
+                  } catch (err: any) {
+                    toast({ title: "Error", description: err.message, variant: "destructive" });
+                  }
+                }}
+              >
+                <Plus className="w-4 h-4 mr-1" /> Add
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Projects Section */}
         <div className="grid lg:grid-cols-3 gap-8">
           <Card className="lg:col-span-1">
@@ -293,7 +349,7 @@ const Admin = () => {
                   onChange={(e) => setForm({ ...form, category: e.target.value })}
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                 >
-                  {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  {categories?.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
                 </select>
               </div>
               <div>
