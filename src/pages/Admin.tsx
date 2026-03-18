@@ -8,14 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin } from "lucide-react";
+import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { useCategories, useCreateCategory, useDeleteCategory } from "@/hooks/useCategories";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Project = Tables<"projects">;
-
-const CATEGORIES = ["Community", "Social Media", "Events", "Content"];
 
 const emptyForm = {
   title: "",
