@@ -372,8 +372,32 @@ const Admin = () => {
                 <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
               </div>
               <div>
-                <Label>Image URL</Label>
-                <Input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} placeholder="https://..." />
+                <Label>Project Image</Label>
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 cursor-pointer border border-dashed border-input rounded-md p-3 hover:bg-muted/50 transition-colors">
+                    <Upload className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">
+                      {imageFile ? imageFile.name : "Choose an image..."}
+                    </span>
+                    <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                  </label>
+                  {(imagePreview || form.image_url) && (
+                    <div className="relative w-full h-32 rounded-md overflow-hidden bg-muted">
+                      <img
+                        src={imagePreview || form.image_url}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => { setImageFile(null); setImagePreview(null); setForm({ ...form, image_url: "" }); }}
+                        className="absolute top-1 right-1 bg-background/80 rounded-full p-1 hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
               <div>
                 <Label>Category</Label>
