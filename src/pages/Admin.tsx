@@ -422,8 +422,8 @@ const Admin = () => {
                 <Input type="number" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value) || 0 })} />
               </div>
               <div className="flex gap-2">
-                <Button onClick={handleSubmit} className="flex-1" disabled={!form.title || !form.description}>
-                  {editingId ? "Update" : "Create"}
+                <Button onClick={handleSubmit} className="flex-1" disabled={!form.title || !form.description || uploading}>
+                  {uploading ? "Uploading..." : editingId ? "Update" : "Create"}
                 </Button>
                 {editingId && (
                   <Button variant="outline" onClick={() => { setEditingId(null); setForm(emptyForm); }}>
