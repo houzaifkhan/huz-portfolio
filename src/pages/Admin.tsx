@@ -235,8 +235,8 @@ const Admin = () => {
                   <Label>Post URL *</Label>
                   <Input value={postForm.post_url} onChange={(e) => setPostForm({ ...postForm, post_url: e.target.value })} placeholder="https://linkedin.com/posts/..." />
                 </div>
-                <Button onClick={handlePostSubmit} className="w-full" disabled={!postForm.title || !postForm.snippet || !postForm.post_url}>
-                  Add Post
+                <Button onClick={handlePostSubmit} className="w-full" disabled={!postForm.title || !postForm.snippet || !postForm.post_url || createLinkedInPost.isPending}>
+                  {createLinkedInPost.isPending ? "Adding..." : "Add Post"}
                 </Button>
               </CardContent>
             </Card>
