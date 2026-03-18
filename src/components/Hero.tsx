@@ -48,10 +48,12 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <Button size="lg" variant="secondary" className="bg-white text-foreground hover:bg-white/90 px-8 py-4 text-lg font-semibold rounded-2xl shadow-vibrant group">
-              Explore My Work
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <a href="#featured-work">
+              <Button size="lg" variant="secondary" className="bg-white text-foreground hover:bg-white/90 px-8 py-4 text-lg font-semibold rounded-2xl shadow-vibrant group">
+                Explore My Work
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </a>
             <a href="https://www.linkedin.com/in/huzaifa-habib/" target="_blank" rel="noopener noreferrer">
               <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold rounded-2xl backdrop-blur-sm group">
                 <Linkedin className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
