@@ -35,7 +35,7 @@ const Hero = () => {
           {/* Subtitle */}
           <div className="mb-8">
             <div className="inline-block bg-green-vibrant text-foreground px-8 py-3 rounded-2xl font-semibold text-xl shadow-vibrant">
-              Program Manager @ Google
+              Program Manager
             </div>
           </div>
 
