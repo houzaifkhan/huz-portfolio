@@ -146,17 +146,24 @@ const Admin = () => {
   }
 
   const handleSubmit = async () => {
-    const payload = {
-      title: form.title,
-      description: form.description,
-      image_url: form.image_url || null,
-      category: form.category,
-      tags: form.tags ? form.tags.split(",").map((t) => t.trim()) : [],
-      highlight: form.highlight || null,
-      sort_order: form.sort_order,
-    };
-
     try {
+      setUploading(true);
+      let imageUrl = form.image_url || null;
+
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+
+      const payload = {
+        title: form.title,
+        description: form.description,
+        image_url: imageUrl,
+        category: form.category,
+        tags: form.tags ? form.tags.split(",").map((t) => t.trim()) : [],
+        highlight: form.highlight || null,
+        sort_order: form.sort_order,
+      };
+
       if (editingId) {
         await updateProject.mutateAsync({ id: editingId, ...payload });
         toast({ title: "Project updated" });
@@ -166,8 +173,12 @@ const Admin = () => {
       }
       setForm(emptyForm);
       setEditingId(null);
+      setImageFile(null);
+      setImagePreview(null);
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setUploading(false);
     }
   };
 
