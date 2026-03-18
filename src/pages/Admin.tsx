@@ -163,11 +163,15 @@ const Admin = () => {
   };
 
   const handlePostSubmit = async () => {
+    console.log("handlePostSubmit called with:", postForm);
+    console.log("Current user:", user?.id, user?.email);
     try {
-      await createLinkedInPost.mutateAsync(postForm);
+      const result = await createLinkedInPost.mutateAsync(postForm);
+      console.log("Post created successfully:", result);
       toast({ title: "LinkedIn post added" });
       setPostForm(emptyPostForm);
     } catch (err: any) {
+      console.error("Post creation error:", err);
       toast({ title: "Error", description: err.message, variant: "destructive" });
     }
   };
