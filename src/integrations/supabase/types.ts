@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      linkedin_posts: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          post_url: string
+          snippet: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          post_url: string
+          snippet: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          post_url?: string
+          snippet?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       projects: {
         Row: {
           category: string
