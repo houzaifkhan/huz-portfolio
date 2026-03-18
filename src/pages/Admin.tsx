@@ -36,15 +36,19 @@ const Admin = () => {
   const { user, loading, isAdmin, signIn, signOut } = useAuth();
   const { data: projects, isLoading } = useProjects();
   const { data: linkedInPosts, isLoading: postsLoading } = useLinkedInPosts();
+  const { data: categories } = useCategories();
   const createProject = useCreateProject();
   const updateProject = useUpdateProject();
   const deleteProject = useDeleteProject();
   const createLinkedInPost = useCreateLinkedInPost();
   const deleteLinkedInPost = useDeleteLinkedInPost();
+  const createCategory = useCreateCategory();
+  const deleteCategory = useDeleteCategory();
   const { toast } = useToast();
 
   const [form, setForm] = useState(emptyForm);
   const [postForm, setPostForm] = useState(emptyPostForm);
+  const [newCategory, setNewCategory] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
