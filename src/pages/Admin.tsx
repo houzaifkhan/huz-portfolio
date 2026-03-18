@@ -296,7 +296,7 @@ const Admin = () => {
                   onChange={(e) => setForm({ ...form, category: e.target.value })}
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                 >
-                  {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  {categories?.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
                 </select>
               </div>
               <div>
