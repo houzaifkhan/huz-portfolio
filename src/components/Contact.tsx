@@ -55,16 +55,16 @@ const Contact = () => {
             </Card>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a href="mailto:houzaifkhan@gmail.com">
-              <Button size="lg" className="bg-green-vibrant hover:bg-green-vibrant/90 text-foreground px-8 py-4 text-lg font-semibold rounded-2xl shadow-glow">
+              <Button size="lg" variant="secondary" className="bg-white text-foreground hover:bg-white/90 px-8 py-4 text-lg font-semibold rounded-2xl shadow-vibrant group">
                 <Mail className="mr-2 w-5 h-5" />
                 Send Email
               </Button>
             </a>
             <a href="https://www.linkedin.com/in/huzaifa-habib/" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold rounded-2xl backdrop-blur-sm">
-                <Linkedin className="mr-2 w-5 h-5" />
+              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold rounded-2xl backdrop-blur-sm group">
+                <Linkedin className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
                 Connect on LinkedIn
               </Button>
             </a>
