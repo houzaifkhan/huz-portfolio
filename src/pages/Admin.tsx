@@ -47,7 +47,7 @@ const Admin = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-center">Admin Login</CardTitle>
+            <CardTitle className="text-center">{isSignUp ? "Create Account" : "Admin Login"}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
