@@ -1,46 +1,46 @@
-import { TrendingUp, Users, Eye, Heart, Share2, Award } from "lucide-react";
+import { Globe, Users, Calendar, Briefcase, TrendingUp, MapPin } from "lucide-react";
 
 const Stats = () => {
   const stats = [
     {
-      icon: <Eye className="w-8 h-8" />,
-      number: "10M+",
-      label: "Total Reach",
+      icon: <Users className="w-8 h-8" />,
+      number: "50+",
+      label: "Communities Managed",
       color: "text-blue-vibrant",
       bg: "bg-blue-vibrant/10"
     },
     {
-      icon: <Heart className="w-8 h-8" />,
-      number: "2.5M+",
-      label: "Engagement",
+      icon: <Calendar className="w-8 h-8" />,
+      number: "100+",
+      label: "Events Organized",
       color: "text-orange-vibrant",
       bg: "bg-orange-vibrant/10"
     },
     {
-      icon: <Share2 className="w-8 h-8" />,
-      number: "500K+",
-      label: "Shares",
+      icon: <Globe className="w-8 h-8" />,
+      number: "10M+",
+      label: "People Reached",
       color: "text-green-vibrant",
       bg: "bg-green-vibrant/10"
     },
     {
-      icon: <Users className="w-8 h-8" />,
-      number: "1M+",
-      label: "Followers Growth",
+      icon: <Briefcase className="w-8 h-8" />,
+      number: "6+",
+      label: "Years Experience",
       color: "text-purple-vibrant",
       bg: "bg-purple-vibrant/10"
     },
     {
       icon: <TrendingUp className="w-8 h-8" />,
-      number: "85%",
-      label: "Engagement Rate",
+      number: "3",
+      label: "Organizations",
       color: "text-accent",
       bg: "bg-accent/10"
     },
     {
-      icon: <Award className="w-8 h-8" />,
-      number: "50+",
-      label: "Campaigns",
+      icon: <MapPin className="w-8 h-8" />,
+      number: "Dubai",
+      label: "Based In",
       color: "text-blue-vibrant",
       bg: "bg-blue-vibrant/10"
     }
@@ -51,13 +51,13 @@ const Stats = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Numbers That{" "}
+            Impact at a{" "}
             <span className="bg-gradient-to-r from-purple-vibrant to-orange-vibrant bg-clip-text text-transparent">
-              Speak Volumes
+              Glance
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Delivering measurable results through creative social media strategies and engaging content
+            Driving meaningful outcomes through community building, program management, and strategic partnerships
           </p>
         </div>
 
