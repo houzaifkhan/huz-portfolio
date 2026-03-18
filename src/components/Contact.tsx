@@ -29,30 +29,26 @@ const Contact = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 group">
-              <CardContent className="p-6 text-center">
-                <Mail className="w-8 h-8 text-green-vibrant mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="text-white font-semibold mb-2">Email Me</h3>
-                <p className="text-white/70 text-sm">Quick response guaranteed</p>
-              </CardContent>
-            </Card>
+          <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
+            <a href="mailto:houzaifkhan@gmail.com">
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 group cursor-pointer">
+                <CardContent className="p-6 text-center">
+                  <Mail className="w-8 h-8 text-green-vibrant mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-white font-semibold mb-2">Email Me</h3>
+                  <p className="text-white/70 text-sm">Quick response guaranteed</p>
+                </CardContent>
+              </Card>
+            </a>
             
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 group">
-              <CardContent className="p-6 text-center">
-                <Linkedin className="w-8 h-8 text-blue-vibrant mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="text-white font-semibold mb-2">LinkedIn</h3>
-                <p className="text-white/70 text-sm">Let's connect professionally</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 group">
-              <CardContent className="p-6 text-center">
-                <MessageCircle className="w-8 h-8 text-orange-vibrant mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="text-white font-semibold mb-2">Let's Chat</h3>
-                <p className="text-white/70 text-sm">Schedule a conversation</p>
-              </CardContent>
-            </Card>
+            <a href="https://www.linkedin.com/in/huzaifa-habib/" target="_blank" rel="noopener noreferrer">
+              <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 group cursor-pointer">
+                <CardContent className="p-6 text-center">
+                  <Linkedin className="w-8 h-8 text-blue-vibrant mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-white font-semibold mb-2">LinkedIn</h3>
+                  <p className="text-white/70 text-sm">Let's connect professionally</p>
+                </CardContent>
+              </Card>
+            </a>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
