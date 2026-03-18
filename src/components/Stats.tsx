@@ -1,7 +1,14 @@
-import { Globe, Users, Calendar, Briefcase, TrendingUp, MapPin } from "lucide-react";
+import { Users, Calendar, Briefcase, Megaphone } from "lucide-react";
 
 const Stats = () => {
   const stats = [
+    {
+      icon: <Briefcase className="w-8 h-8" />,
+      number: "8+",
+      label: "Years of Experience",
+      color: "text-purple-vibrant",
+      bg: "bg-purple-vibrant/10"
+    },
     {
       icon: <Users className="w-8 h-8" />,
       number: "50+",
@@ -11,38 +18,17 @@ const Stats = () => {
     },
     {
       icon: <Calendar className="w-8 h-8" />,
-      number: "100+",
+      number: "1,000+",
       label: "Events Organized",
       color: "text-orange-vibrant",
       bg: "bg-orange-vibrant/10"
     },
     {
-      icon: <Globe className="w-8 h-8" />,
-      number: "10M+",
-      label: "People Reached",
+      icon: <Megaphone className="w-8 h-8" />,
+      number: "5M+",
+      label: "Reach via Social Content",
       color: "text-green-vibrant",
       bg: "bg-green-vibrant/10"
-    },
-    {
-      icon: <Briefcase className="w-8 h-8" />,
-      number: "6+",
-      label: "Years Experience",
-      color: "text-purple-vibrant",
-      bg: "bg-purple-vibrant/10"
-    },
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      number: "3",
-      label: "Organizations",
-      color: "text-accent",
-      bg: "bg-accent/10"
-    },
-    {
-      icon: <MapPin className="w-8 h-8" />,
-      number: "Dubai",
-      label: "Based In",
-      color: "text-blue-vibrant",
-      bg: "bg-blue-vibrant/10"
     }
   ];
 
