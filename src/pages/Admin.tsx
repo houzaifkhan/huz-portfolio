@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin, X } from "lucide-react";
+import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin, X, Upload, ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { useCategories, useCreateCategory, useDeleteCategory } from "@/hooks/useCategories";
@@ -53,6 +53,28 @@ const Admin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const uploadImage = async (file: File): Promise<string> => {
+    const ext = file.name.split(".").pop();
+    const fileName = `${crypto.randomUUID()}.${ext}`;
+    const { error } = await supabase.storage
+      .from("project-images")
+      .upload(fileName, file);
+    if (error) throw error;
+    const { data } = supabase.storage.from("project-images").getPublicUrl(fileName);
+    return data.publicUrl;
+  };
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center bg-background">
@@ -124,17 +146,24 @@ const Admin = () => {
   }
 
   const handleSubmit = async () => {
-    const payload = {
-      title: form.title,
-      description: form.description,
-      image_url: form.image_url || null,
-      category: form.category,
-      tags: form.tags ? form.tags.split(",").map((t) => t.trim()) : [],
-      highlight: form.highlight || null,
-      sort_order: form.sort_order,
-    };
-
     try {
+      setUploading(true);
+      let imageUrl = form.image_url || null;
+
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+
+      const payload = {
+        title: form.title,
+        description: form.description,
+        image_url: imageUrl,
+        category: form.category,
+        tags: form.tags ? form.tags.split(",").map((t) => t.trim()) : [],
+        highlight: form.highlight || null,
+        sort_order: form.sort_order,
+      };
+
       if (editingId) {
         await updateProject.mutateAsync({ id: editingId, ...payload });
         toast({ title: "Project updated" });
@@ -144,13 +173,19 @@ const Admin = () => {
       }
       setForm(emptyForm);
       setEditingId(null);
+      setImageFile(null);
+      setImagePreview(null);
     } catch (err: any) {
       toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setUploading(false);
     }
   };
 
   const startEdit = (project: Project) => {
     setEditingId(project.id);
+    setImageFile(null);
+    setImagePreview(null);
     setForm({
       title: project.title,
       description: project.description,
@@ -339,8 +374,32 @@ const Admin = () => {
                 <Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
               </div>
               <div>
-                <Label>Image URL</Label>
-                <Input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} placeholder="https://..." />
+                <Label>Project Image</Label>
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 cursor-pointer border border-dashed border-input rounded-md p-3 hover:bg-muted/50 transition-colors">
+                    <Upload className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">
+                      {imageFile ? imageFile.name : "Choose an image..."}
+                    </span>
+                    <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                  </label>
+                  {(imagePreview || form.image_url) && (
+                    <div className="relative w-full h-32 rounded-md overflow-hidden bg-muted">
+                      <img
+                        src={imagePreview || form.image_url}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => { setImageFile(null); setImagePreview(null); setForm({ ...form, image_url: "" }); }}
+                        className="absolute top-1 right-1 bg-background/80 rounded-full p-1 hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
               <div>
                 <Label>Category</Label>
@@ -365,8 +424,8 @@ const Admin = () => {
                 <Input type="number" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value) || 0 })} />
               </div>
               <div className="flex gap-2">
-                <Button onClick={handleSubmit} className="flex-1" disabled={!form.title || !form.description}>
-                  {editingId ? "Update" : "Create"}
+                <Button onClick={handleSubmit} className="flex-1" disabled={!form.title || !form.description || uploading}>
+                  {uploading ? "Uploading..." : editingId ? "Update" : "Create"}
                 </Button>
                 {editingId && (
                   <Button variant="outline" onClick={() => { setEditingId(null); setForm(emptyForm); }}>
