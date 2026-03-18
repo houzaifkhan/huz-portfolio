@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { useProjects, useCreateProject, useUpdateProject, useDeleteProject } from "@/hooks/useProjects";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,6 +38,7 @@ const Admin = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
 
@@ -45,7 +47,7 @@ const Admin = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-center">Admin Login</CardTitle>
+            <CardTitle className="text-center">{isSignUp ? "Create Account" : "Admin Login"}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
@@ -59,12 +61,25 @@ const Admin = () => {
             <Button
               className="w-full"
               onClick={async () => {
-                const { error } = await signIn(email, password);
-                if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                if (isSignUp) {
+                  const { error } = await supabase.auth.signUp({ email, password });
+                  if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                  else toast({ title: "Account created!", description: "Check your email to verify, then sign in." });
+                } else {
+                  const { error } = await signIn(email, password);
+                  if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
+                }
               }}
             >
-              Sign In
+              {isSignUp ? "Sign Up" : "Sign In"}
             </Button>
+            <button
+              type="button"
+              className="block w-full text-center text-sm text-muted-foreground hover:text-foreground"
+              onClick={() => setIsSignUp(!isSignUp)}
+            >
+              {isSignUp ? "Already have an account? Sign In" : "Need an account? Sign Up"}
+            </button>
             <Link to="/" className="block text-center text-sm text-muted-foreground hover:text-foreground">
               ← Back to Portfolio
             </Link>
