@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin, X } from "lucide-react";
+import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin, X, Upload, ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { useCategories, useCreateCategory, useDeleteCategory } from "@/hooks/useCategories";
