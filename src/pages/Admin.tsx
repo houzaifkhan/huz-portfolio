@@ -51,7 +51,14 @@ const Admin = () => {
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <p className="text-sm text-muted-foreground">Loading admin panel...</p>
+      </div>
+    </div>
+  );
 
   if (!user) {
     return (
@@ -228,8 +235,8 @@ const Admin = () => {
                   <Label>Post URL *</Label>
                   <Input value={postForm.post_url} onChange={(e) => setPostForm({ ...postForm, post_url: e.target.value })} placeholder="https://linkedin.com/posts/..." />
                 </div>
-                <Button onClick={handlePostSubmit} className="w-full" disabled={!postForm.title || !postForm.snippet || !postForm.post_url}>
-                  Add Post
+                <Button onClick={handlePostSubmit} className="w-full" disabled={!postForm.title || !postForm.snippet || !postForm.post_url || createLinkedInPost.isPending}>
+                  {createLinkedInPost.isPending ? "Adding..." : "Add Post"}
                 </Button>
               </CardContent>
             </Card>
