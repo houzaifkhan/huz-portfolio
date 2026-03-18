@@ -17,7 +17,7 @@ const Hero = () => {
           <div className="mb-8 relative inline-block">
             <div className="w-48 h-48 mx-auto rounded-3xl bg-gradient-card backdrop-blur-sm border border-white/20 shadow-vibrant overflow-hidden">
               <img 
-                src="/lovable-uploads/50ab4d6a-a531-470e-9f31-74a80f10060e.png" 
+                src="/lovable-uploads/hero-profile.jpg" 
                 alt="Huzaifa Habib - Program Manager" 
                 className="w-full h-full object-cover"
               />
