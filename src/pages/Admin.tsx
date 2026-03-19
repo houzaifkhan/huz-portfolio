@@ -163,6 +163,7 @@ const Admin = () => {
         tags: form.tags ? form.tags.split(",").map((t) => t.trim()) : [],
         highlight: form.highlight || null,
         sort_order: form.sort_order,
+        details_url: form.details_url || null,
       };
 
       if (editingId) {
