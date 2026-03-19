@@ -196,6 +196,7 @@ const Admin = () => {
       tags: project.tags?.join(", ") || "",
       highlight: project.highlight || "",
       sort_order: project.sort_order || 0,
+      details_url: (project as any).details_url || "",
     });
   };
 
