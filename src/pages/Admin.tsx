@@ -24,6 +24,7 @@ const emptyForm = {
   tags: "",
   highlight: "",
   sort_order: 0,
+  details_url: "",
 };
 
 const emptyPostForm = {
