@@ -24,6 +24,7 @@ const emptyForm = {
   tags: "",
   highlight: "",
   sort_order: 0,
+  details_url: "",
 };
 
 const emptyPostForm = {
@@ -162,6 +163,7 @@ const Admin = () => {
         tags: form.tags ? form.tags.split(",").map((t) => t.trim()) : [],
         highlight: form.highlight || null,
         sort_order: form.sort_order,
+        details_url: form.details_url || null,
       };
 
       if (editingId) {
@@ -194,6 +196,7 @@ const Admin = () => {
       tags: project.tags?.join(", ") || "",
       highlight: project.highlight || "",
       sort_order: project.sort_order || 0,
+      details_url: (project as any).details_url || "",
     });
   };
 
@@ -422,6 +425,10 @@ const Admin = () => {
               <div>
                 <Label>Sort Order</Label>
                 <Input type="number" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value) || 0 })} />
+              </div>
+              <div>
+                <Label>Details Link (optional)</Label>
+                <Input value={form.details_url} onChange={(e) => setForm({ ...form, details_url: e.target.value })} placeholder="https://example.com/project-details" />
               </div>
               <div className="flex gap-2">
                 <Button onClick={handleSubmit} className="flex-1" disabled={!form.title || !form.description || uploading}>
