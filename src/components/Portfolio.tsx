@@ -26,7 +26,7 @@ const Portfolio = () => {
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A diverse portfolio spanning community building, program management, social media, and content creation
+            A selection of work focused on building communities, launching programs, and creating partnerships that help ideas and people grow.
           </p>
         </div>
 

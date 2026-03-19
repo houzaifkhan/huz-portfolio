@@ -43,7 +43,7 @@ const Stats = () => {
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Driving meaningful outcomes through community building, program management, and strategic partnerships
+            The impact of bringing people together, through communities, partnerships, and programs that drive real outcomes.
           </p>
         </div>
 

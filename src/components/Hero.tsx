@@ -41,9 +41,7 @@ const Hero = () => {
 
           {/* Description */}
           <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Building and scaling tech ecosystems by connecting the right people, 
-            driving community programs, and delivering impactful initiatives across 
-            Google, Turing, and the UNDP.
+            At the intersection of people and products, I design communities, programs, and partnerships that create real impact. I enjoy working closely with builders and helping ideas grow into something tangible.
           </p>
 
           {/* CTA Buttons */}
