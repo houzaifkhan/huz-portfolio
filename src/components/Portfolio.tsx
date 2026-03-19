@@ -96,13 +96,17 @@ const Portfolio = () => {
                     </div>
                   )}
 
-                  <Button
-                    size="sm"
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl w-full"
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    View Details
-                  </Button>
+                  {(project as any).details_url && (
+                    <a href={(project as any).details_url} target="_blank" rel="noopener noreferrer">
+                      <Button
+                        size="sm"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl w-full"
+                      >
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        View Details
+                      </Button>
+                    </a>
+                  )}
                 </CardContent>
               </Card>
             ))}
