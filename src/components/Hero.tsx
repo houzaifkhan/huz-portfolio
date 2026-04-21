@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ArrowRight, Linkedin } from "lucide-react";
+import { ChevronDown, ArrowRight, Linkedin, MapPin } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -33,9 +33,13 @@ const Hero = () => {
           </h1>
           
           {/* Subtitle */}
-          <div className="mb-8">
+          <div className="mb-8 flex flex-col items-center gap-3">
             <div className="inline-block bg-green-vibrant text-foreground px-8 py-3 rounded-2xl font-semibold text-xl shadow-vibrant">
               Program Manager
+            </div>
+            <div className="inline-flex items-center gap-2 text-white/90 text-base font-medium">
+              <MapPin className="w-5 h-5" />
+              <span>Dubai, UAE</span>
             </div>
           </div>
 
