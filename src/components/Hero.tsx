@@ -6,18 +6,18 @@ const Hero = () => {
   const [activeSkill, setActiveSkill] = useState<number | null>(null);
 
   const skills = [
-    { icon: Globe, label: "Ecosystems", angle: -90 },
+    { icon: Globe, label: "Project Delivery", angle: -90 },
     { icon: Lightbulb, label: "Strategy", angle: -30 },
     { icon: BarChart3, label: "Growth", angle: 30 },
     { icon: Users, label: "Community", angle: 90 },
-    { icon: Rocket, label: "Launches", angle: 150 },
+    { icon: Rocket, label: "GTM Launches", angle: 150 },
     { icon: TrendingUp, label: "Partnerships", angle: 210 },
   ];
 
   const metrics = [
     { icon: Rocket, value: "10+", label: "Programs Led" },
     { icon: TrendingUp, value: "3", label: "Global Orgs" },
-    { icon: Users, value: "1K+", label: "Founders & Devs" },
+    { icon: Users, value: "50+", label: "Partnerships & Collaborations" },
   ];
 
   return (
@@ -152,8 +152,8 @@ const Hero = () => {
             <div className="relative z-10">
               <div className="w-40 h-40 rounded-full bg-gradient-to-br from-purple-vibrant to-accent shadow-vibrant flex items-center justify-center text-center p-6">
                 <div>
-                  <div className="text-white font-bold text-lg leading-tight">Program</div>
-                  <div className="text-white font-bold text-lg leading-tight">Leadership</div>
+                  <div className="text-white/80 font-medium text-xs uppercase tracking-widest leading-tight mb-1">I Excel At</div>
+                  <div className="text-white font-bold text-lg leading-tight">Building &<br/>Scaling</div>
                 </div>
               </div>
               <div className="absolute inset-0 rounded-full bg-purple-vibrant/30 blur-2xl -z-10" />
