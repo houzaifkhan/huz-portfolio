@@ -3,12 +3,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { useProjects, useCreateProject, useUpdateProject, useDeleteProject } from "@/hooks/useProjects";
 import { useLinkedInPosts, useCreateLinkedInPost, useDeleteLinkedInPost } from "@/hooks/useLinkedInPost";
+import { useCompanies, useCreateCompany, useDeleteCompany } from "@/hooks/useCompanies";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin, X, Upload, ImageIcon } from "lucide-react";
+import { Pencil, Trash2, Plus, LogOut, ArrowLeft, Linkedin, X, Upload, ImageIcon, Building2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { useCategories, useCreateCategory, useDeleteCategory } from "@/hooks/useCategories";
@@ -45,6 +46,9 @@ const Admin = () => {
   const deleteLinkedInPost = useDeleteLinkedInPost();
   const createCategory = useCreateCategory();
   const deleteCategory = useDeleteCategory();
+  const { data: companies, isLoading: companiesLoading } = useCompanies();
+  const createCompany = useCreateCompany();
+  const deleteCompany = useDeleteCompany();
   const { toast } = useToast();
 
   const [form, setForm] = useState(emptyForm);
@@ -57,6 +61,50 @@ const Admin = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [companyForm, setCompanyForm] = useState({ name: "", link_url: "", sort_order: 0 });
+  const [companyLogoFile, setCompanyLogoFile] = useState<File | null>(null);
+  const [companyLogoPreview, setCompanyLogoPreview] = useState<string | null>(null);
+  const [uploadingCompany, setUploadingCompany] = useState(false);
+
+  const handleCompanyLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setCompanyLogoFile(file);
+      setCompanyLogoPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleCompanySubmit = async () => {
+    if (!companyLogoFile || !companyForm.name) return;
+    try {
+      setUploadingCompany(true);
+      const logoUrl = await uploadImage(companyLogoFile);
+      await createCompany.mutateAsync({
+        name: companyForm.name,
+        logo_url: logoUrl,
+        link_url: companyForm.link_url || null,
+        sort_order: companyForm.sort_order,
+      });
+      toast({ title: "Company added" });
+      setCompanyForm({ name: "", link_url: "", sort_order: 0 });
+      setCompanyLogoFile(null);
+      setCompanyLogoPreview(null);
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setUploadingCompany(false);
+    }
+  };
+
+  const handleCompanyDelete = async (id: string) => {
+    if (!confirm("Delete this company logo?")) return;
+    try {
+      await deleteCompany.mutateAsync(id);
+      toast({ title: "Company deleted" });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    }
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -300,6 +348,112 @@ const Admin = () => {
                     </CardContent>
                   </Card>
                 ))
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Companies Section */}
+        <div>
+          <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+            <Building2 className="w-5 h-5" /> Companies &amp; Organizations ({companies?.length || 0})
+          </h2>
+          <div className="grid lg:grid-cols-3 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Plus className="w-4 h-4" /> Add Company Logo
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div>
+                  <Label>Company Name *</Label>
+                  <Input
+                    value={companyForm.name}
+                    onChange={(e) => setCompanyForm({ ...companyForm, name: e.target.value })}
+                    placeholder="Google"
+                  />
+                </div>
+                <div>
+                  <Label>Logo *</Label>
+                  <label className="flex items-center gap-2 cursor-pointer border border-dashed border-input rounded-md p-3 hover:bg-muted/50 transition-colors">
+                    <Upload className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">
+                      {companyLogoFile ? companyLogoFile.name : "Choose a logo..."}
+                    </span>
+                    <input type="file" accept="image/*" onChange={handleCompanyLogoChange} className="hidden" />
+                  </label>
+                  {companyLogoPreview && (
+                    <div className="relative w-full h-24 rounded-md overflow-hidden bg-muted mt-2 flex items-center justify-center p-2">
+                      <img src={companyLogoPreview} alt="Preview" className="max-h-full max-w-full object-contain" />
+                      <button
+                        type="button"
+                        onClick={() => { setCompanyLogoFile(null); setCompanyLogoPreview(null); }}
+                        className="absolute top-1 right-1 bg-background/80 rounded-full p-1 hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <Label>Link URL (optional)</Label>
+                  <Input
+                    value={companyForm.link_url}
+                    onChange={(e) => setCompanyForm({ ...companyForm, link_url: e.target.value })}
+                    placeholder="https://company.com"
+                  />
+                </div>
+                <div>
+                  <Label>Sort Order</Label>
+                  <Input
+                    type="number"
+                    value={companyForm.sort_order}
+                    onChange={(e) => setCompanyForm({ ...companyForm, sort_order: parseInt(e.target.value) || 0 })}
+                  />
+                </div>
+                <Button
+                  onClick={handleCompanySubmit}
+                  className="w-full"
+                  disabled={!companyForm.name || !companyLogoFile || uploadingCompany}
+                >
+                  {uploadingCompany ? "Uploading..." : "Add Company"}
+                </Button>
+              </CardContent>
+            </Card>
+            <div className="lg:col-span-2 space-y-3">
+              {companiesLoading ? (
+                <p className="text-muted-foreground">Loading...</p>
+              ) : companies?.length === 0 ? (
+                <p className="text-muted-foreground">No companies yet.</p>
+              ) : (
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {companies?.map((company) => (
+                    <Card key={company.id}>
+                      <CardContent className="p-4 flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-14 h-14 bg-muted rounded flex items-center justify-center p-1 shrink-0">
+                            <img src={company.logo_url} alt={company.name} className="max-h-full max-w-full object-contain" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="font-medium text-foreground truncate">{company.name}</p>
+                            {company.link_url && (
+                              <p className="text-xs text-muted-foreground truncate">{company.link_url}</p>
+                            )}
+                          </div>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleCompanyDelete(company.id)}
+                          className="text-destructive hover:text-destructive shrink-0"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               )}
             </div>
           </div>
