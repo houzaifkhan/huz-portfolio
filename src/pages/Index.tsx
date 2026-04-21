@@ -4,7 +4,6 @@ import LatestPost from "@/components/LatestPost";
 import Portfolio from "@/components/Portfolio";
 import Companies from "@/components/Companies";
 import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
@@ -15,7 +14,6 @@ const Index = () => {
       <Portfolio />
       <Companies />
       <Contact />
-      <Footer />
     </div>
   );
 };
