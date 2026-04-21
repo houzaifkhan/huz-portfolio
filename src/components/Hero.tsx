@@ -44,9 +44,6 @@ const Hero = () => {
             <p>
               Hi, I am Huzaifa. I have worked across Google, Turing, and UNDP, leading cross-functional initiatives in startup growth, developer ecosystems, business development, community programs, and communications. My work has focused on turning strategy into execution by building the right partnerships, launching market-facing programs, and creating strong engagement with founders, developers, and customers.
             </p>
-            <p>
-              I'm also hands-on with using AI, spec-driven development, and vibe coding to automate workflows and build internal tools that make work faster and easier for both myself and the teams I support.
-            </p>
           </div>
 
           {/* CTA Buttons */}
