@@ -150,7 +150,7 @@ const Hero = () => {
 
             {/* Center orb */}
             <div className="relative z-10">
-              <div className="w-40 h-40 rounded-full bg-gradient-to-br from-purple-vibrant to-accent shadow-vibrant flex items-center justify-center text-center p-6 animate-pulse-slow">
+              <div className="w-40 h-40 rounded-full bg-gradient-to-br from-purple-vibrant to-accent shadow-vibrant flex items-center justify-center text-center p-6">
                 <div>
                   <div className="text-white font-bold text-lg leading-tight">Program</div>
                   <div className="text-white font-bold text-lg leading-tight">Leadership</div>
