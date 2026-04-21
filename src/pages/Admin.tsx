@@ -61,6 +61,50 @@ const Admin = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [companyForm, setCompanyForm] = useState({ name: "", link_url: "", sort_order: 0 });
+  const [companyLogoFile, setCompanyLogoFile] = useState<File | null>(null);
+  const [companyLogoPreview, setCompanyLogoPreview] = useState<string | null>(null);
+  const [uploadingCompany, setUploadingCompany] = useState(false);
+
+  const handleCompanyLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setCompanyLogoFile(file);
+      setCompanyLogoPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleCompanySubmit = async () => {
+    if (!companyLogoFile || !companyForm.name) return;
+    try {
+      setUploadingCompany(true);
+      const logoUrl = await uploadImage(companyLogoFile);
+      await createCompany.mutateAsync({
+        name: companyForm.name,
+        logo_url: logoUrl,
+        link_url: companyForm.link_url || null,
+        sort_order: companyForm.sort_order,
+      });
+      toast({ title: "Company added" });
+      setCompanyForm({ name: "", link_url: "", sort_order: 0 });
+      setCompanyLogoFile(null);
+      setCompanyLogoPreview(null);
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setUploadingCompany(false);
+    }
+  };
+
+  const handleCompanyDelete = async (id: string) => {
+    if (!confirm("Delete this company logo?")) return;
+    try {
+      await deleteCompany.mutateAsync(id);
+      toast({ title: "Company deleted" });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    }
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
