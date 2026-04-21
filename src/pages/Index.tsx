@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
 import LatestPost from "@/components/LatestPost";
 import Portfolio from "@/components/Portfolio";
+import Companies from "@/components/Companies";
 import Contact from "@/components/Contact";
 
 const Index = () => {
@@ -11,6 +12,7 @@ const Index = () => {
       <Stats />
       <LatestPost />
       <Portfolio />
+      <Companies />
       <Contact />
     </div>
   );
