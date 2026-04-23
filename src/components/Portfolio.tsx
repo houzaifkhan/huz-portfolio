@@ -6,6 +6,7 @@ import { useProjects } from "@/hooks/useProjects";
 
 const Portfolio = () => {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [showAllMobile, setShowAllMobile] = useState(false);
   const { data: projects, isLoading } = useProjects();
 
   const categories = ["All", ...new Set(projects?.map((p) => p.category) || [])];
@@ -53,10 +54,12 @@ const Portfolio = () => {
           <div className="text-center text-muted-foreground py-12">No projects found.</div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filtered.map((project) => (
+            {filtered.map((project, idx) => (
               <Card
                 key={project.id}
-                className="group overflow-hidden border-0 shadow-lg hover:shadow-vibrant transition-all duration-500 hover:-translate-y-2 bg-card/80 backdrop-blur-sm"
+                className={`group overflow-hidden border-0 shadow-lg hover:shadow-vibrant transition-all duration-500 hover:-translate-y-2 bg-card/80 backdrop-blur-sm ${
+                  !showAllMobile && idx >= 3 ? "hidden md:block" : ""
+                }`}
               >
                 <div className="relative overflow-hidden">
                   <img
@@ -110,6 +113,18 @@ const Portfolio = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        )}
+
+        {!isLoading && filtered && filtered.length > 3 && !showAllMobile && (
+          <div className="mt-8 flex justify-center md:hidden">
+            <Button
+              onClick={() => setShowAllMobile(true)}
+              variant="outline"
+              className="rounded-2xl px-8"
+            >
+              View More
+            </Button>
           </div>
         )}
       </div>
